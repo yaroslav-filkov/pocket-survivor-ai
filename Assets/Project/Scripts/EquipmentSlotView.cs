@@ -1,36 +1,32 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using TMPro;
 
-public class EquipmentSlotView : MonoBehaviour,
-  IDropHandler
+public class EquipmentSlotView : MonoBehaviour
 {
     [SerializeField] private Image _image;
     [SerializeField] private ItemView _prefab;
     [SerializeField] private TextMeshProUGUI _armorValue;
     [SerializeField] private TextMeshProUGUI _namePart;
     [SerializeField] private Image _partIcon;
-    
-    public EquipmentSlot Model;
 
-
+    private EquipmentSlot _model;
     private ItemView _currentItemInSlot;
     private ItemRepository _itemRepository;
 
     public void Setup(EquipmentSlot model, Sprite icon, ItemRepository itemRepository)
     {
-        Model = model;
+        _model = model;
         _itemRepository = itemRepository;
 
-        Model.Added = OnAdded;
-        Model.Removed = OnRemoved;
+        _model.Added = OnAdded;
+        _model.Removed = OnRemoved;
 
-        if (!Model.IsEmpty)
-            OnAdded(Model.CurrentItem.CurrentAmount);
+        if (!_model.IsEmpty)
+            OnAdded(_model.CurrentItem.CurrentAmount);
 
         _partIcon.sprite = icon;
-        _namePart.text = LocalizationService.GetTextTranslation(Model.AcceptableId);
+        _namePart.text = LocalizationService.GetTextTranslation(_model.AcceptableId);
     }
 
 
@@ -40,8 +36,8 @@ public class EquipmentSlotView : MonoBehaviour,
         if (currentAmount > 0)
         {
             _currentItemInSlot = Instantiate(_prefab, transform);
-            _armorValue.text = (_itemRepository.GetById(Model.CurrentItem.ItemId) as Cloth).ArmorValue.ToString();
-            _currentItemInSlot.Setup(in Model.CurrentItem, false);
+            _armorValue.text = (_itemRepository.GetById(_model.CurrentItem.ItemId) as Cloth).ArmorValue.ToString();
+            _currentItemInSlot.Setup(in _model.CurrentItem, _model, false);
 
         }
     }
@@ -58,11 +54,4 @@ public class EquipmentSlotView : MonoBehaviour,
         }
     }
 
-
-
- 
-    public void OnDrop(PointerEventData eventData)
-    {
-       
-    }
 }

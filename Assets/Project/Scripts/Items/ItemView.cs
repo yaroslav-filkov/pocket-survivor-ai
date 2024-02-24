@@ -13,30 +13,23 @@ public class ItemView : MonoBehaviour,
     [SerializeField] private TextMeshProUGUI _amountInSlot;
 
     public InventoryItem Model {  get; private set; }
+    public InventorySlot SlotModel { get; private set; }
 
     private RectTransform _rectTransform;
     private Canvas _mainCanvas;
-    private Transform _parent;
+    private Transform _parentAfterDraging;
     private bool _isClickable = true;
-    public void Setup(in InventoryItem model, bool isClickable = true)
+    public void Setup(in InventoryItem model, InventorySlot slotModel, bool isClickable = true)
     {
         Model = model; 
         _isClickable = isClickable;
+        SlotModel = slotModel;
         UpdateView();
     }
 
-
-    private void Start()
+    public void Setup(InventorySlot slotModel)
     {
-        _rectTransform = GetComponent<RectTransform>();
-        _mainCanvas = GetComponentInParent<Canvas>();
-        _parent = _rectTransform.parent;
-    }
-
-    private void UpdateView()
-    {
-        _itemIcon.sprite = Model.Icon;
-        UpdateValue(Model.CurrentAmount);
+        SlotModel = slotModel;
     }
 
     public void UpdateValue(int value) 
@@ -44,50 +37,74 @@ public class ItemView : MonoBehaviour,
         _amountInSlot.text = value.ToString();
         UpdateAmountVisible();
     }
-    private void UpdateAmountVisible()
+
+    public void SetupNewParent(Transform newParent)
     {
-        _amountInSlot.gameObject.SetActive(Model.CurrentAmount > 1);
+        transform.SetParent(newParent);
+        _parentAfterDraging = newParent;
     }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (_isClickable)
+            ShowInfo();
+    }
+
+
+
+
     public void OnBeginDrag(PointerEventData eventData)
     {
-        transform.SetParent(_mainCanvas.transform);
-        transform.SetAsLastSibling();
-        _itemIcon.maskable = false;
-        _amountInSlot.gameObject.SetActive(false);
+        if (!_isClickable)
+            return;
         _itemIcon.raycastTarget = false;
+        _parentAfterDraging = transform.parent;
+        transform.SetParent(_mainCanvas.transform);
+
+        transform.SetAsLastSibling();
+
+        _itemIcon.maskable = false;
+
+        _amountInSlot.gameObject.SetActive(false);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!_isClickable)
+            return;
         _rectTransform.anchoredPosition += eventData.delta / _mainCanvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(eventData.pointerEnter == null || eventData.pointerEnter.GetComponent<SlotView>() == null)
-        {
-            transform.SetParent(_parent);
-        }
-       
-        transform.localPosition = Vector3.zero;
-        _itemIcon.maskable = true;
+        if (!_isClickable)
+            return;
         _itemIcon.raycastTarget = true;
+        transform.SetParent(_parentAfterDraging);
+
+       
+        _itemIcon.maskable = true;
         UpdateAmountVisible();
+
     }
-    public void SetupNewParent(Transform newParent)
+
+    private void UpdateAmountVisible()
     {
-        transform.SetParent(newParent);
-        _parent = newParent;
-    }
-  
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if(_isClickable)
-            ShowInfo();
+        _amountInSlot.gameObject.SetActive(Model.CurrentAmount > 1);
     }
 
     private void ShowInfo()
     {
         PopupItem.Show(Model.ItemId);
+    }
+    private void Start()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+        _mainCanvas = GetComponentInParent<Canvas>();
+    }
+    private void UpdateView()
+    {
+        _itemIcon.sprite = Model.Icon;
+        UpdateValue(Model.CurrentAmount);
     }
 }

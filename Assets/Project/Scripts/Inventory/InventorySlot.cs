@@ -1,4 +1,5 @@
 using System;
+using static UnityEditor.Progress;
 
 [Serializable]
 public class InventorySlot 
@@ -9,6 +10,7 @@ public class InventorySlot
 
     public Action<int> Added;
     public Action<int> Removed;
+    public Action Taked;
     public InventorySlot(int numberSlot)
     {
         IdSlot = numberSlot;
@@ -30,5 +32,19 @@ public class InventorySlot
     {
         CurrentItem.CurrentAmount -= amount;
         Removed?.Invoke(CurrentItem.CurrentAmount);
+    }
+
+    public virtual void Take(int amount)
+    {
+        CurrentItem.CurrentAmount -= amount;
+        if (CurrentItem.CurrentAmount < 0)
+            CurrentItem.CurrentAmount = 0;
+        Taked?.Invoke(); 
+        
+    }
+
+    public virtual void Move(in InventoryItem from)
+    {
+         CurrentItem = from;
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 225684091377350684}
   - component: {fileID: 7305718346191595228}
   - component: {fileID: 2314088440286336744}
+  - component: {fileID: 1820291397166485124}
   m_Layer: 5
   m_Name: slot
   m_TagString: Untagged
@@ -89,7 +90,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 7305718346191595228}
-  Model:
-    CurrentItem:
-      Configuration: {fileID: 0}
   _prefab: {fileID: 6936894357369032426, guid: f7525f7451d755b46a08fc5490842814, type: 3}
+--- !u!114 &1820291397166485124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8115837134594826838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 100, y: 100}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2

@@ -7,24 +7,30 @@ public class SlotView : MonoBehaviour,
 {
     [SerializeField] private Image _image;
 
-    public InventorySlot Model;
 
     [SerializeField] private ItemView _prefab;
 
     private ItemView _currentItemInSlot;
+    private InventorySlot Model;
 
     public void Setup(InventorySlot model)
     {
         Model = model;
         Model.Added = OnAdded;
         Model.Removed = OnRemoved;
+        Model.Taked = OnTaked;
+    }
+
+    private void OnTaked()
+    {
+        _currentItemInSlot = null;
     }
 
     public void OnAdded(int currentAmount)
     {
         if (_currentItemInSlot == null)
             _currentItemInSlot = Instantiate(_prefab, transform);
-        _currentItemInSlot.Setup(in Model.CurrentItem);
+        _currentItemInSlot.Setup(in Model.CurrentItem, Model);
     }
     public void OnRemoved(int currentAmount)
     {
@@ -39,26 +45,19 @@ public class SlotView : MonoBehaviour,
     }
     public void OnDrop(PointerEventData eventData)
     {
-        if (eventData.pointerDrag.TryGetComponent(out ItemView itemView) && Model.IsEmpty)
+        if (transform.childCount == 0)
         {
-            //if(Model.CurrentItem == null)
-            //{
-            //    itemView.SetupNewParent(transform);
-            //    Model.Add(itemView.Model, itemView.Model.CurrentAmount);
-            //    itemView.Model.CurrentAmount.TakeNeed(itemView.Model.CurrentAmount);
+            if (eventData.pointerDrag.TryGetComponent(out ItemView itemView) && Model.IsEmpty)
+            {
+                itemView.SetupNewParent(transform);
 
-            //}
-            //else if(Model.CurrentItem != null && !Model.IsFull
-            //    && Model.CurrentItem == itemView.Model
-            //    && Model.CurrentItem.CurrentAmount + itemView.Model.CurrentAmount <= itemView.Model.DefaultCapacityPerSlot) 
-            //{
-            //    itemView.SetupNewParent(transform);
-            //    Model.Add(itemView.Model, itemView.Model.CurrentAmount);
-            //    itemView.Model.CurrentAmount.TakeNeed(itemView.Model.CurrentAmount);
-
-            //}
-
+                Model.Move(itemView.Model);
+                itemView.SlotModel.Take(itemView.Model.CurrentAmount);
+                itemView.Setup(Model);
+               _currentItemInSlot = itemView;
+            }
         }
+       
 
     }
 }
