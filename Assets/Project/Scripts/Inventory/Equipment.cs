@@ -29,6 +29,19 @@ public class Equipment
         return null;
     }
 
+    public InventoryItem GetInventoryItemBySlot(string partOfBodyId)
+    {
+        var slot = Slots.FirstOrDefault(x => x.AcceptableId == partOfBodyId);
+        if (slot != null)
+        {
+            if (!slot.IsEmpty)
+            {
+                return slot.CurrentItem;
+            }
+        }
+        return new InventoryItem();
+    }
+
     public virtual void PutFirst(Cloth item)
     {
         var needSlot = _slots.FirstOrDefault(x => (x.AcceptableId == item.BodyId));
@@ -36,6 +49,14 @@ public class Equipment
         if (needSlot != null)
         {
             needSlot.Add(new InventoryItem(item.Id as ItemId, item.RemoteConfigDto.DefaultCapacityPerSlot, item.Configuration.Icon ), 1);
+        }
+    }
+    public virtual void Take(string itemId, int value)
+    {
+        var needSlot = _slots.FirstOrDefault(x => (!x.IsEmpty && x.CurrentItem.ItemId == itemId));
+        if (needSlot != null)
+        {
+            needSlot.Remove(value);
         }
     }
 }

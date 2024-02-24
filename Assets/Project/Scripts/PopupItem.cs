@@ -80,8 +80,22 @@ public class PopupItem : MonoBehaviour
         }
         else if (item is Cloth  cloth)
         {
-            _player.Equipment.PutFirst(cloth);
-            inventory.Take(_currentItem, 1);
+            var itemInslot = _player.Equipment.GetInventoryItemBySlot(cloth.BodyId);
+            if(itemInslot.CurrentAmount == 0) 
+            {
+                _player.Equipment.PutFirst(cloth);
+                inventory.Take(_currentItem, 1);
+            }
+            else
+            {
+                _player.Equipment.Take(itemInslot.ItemId, 1);
+                _player.Equipment.PutFirst(cloth);
+
+                inventory.Take(_currentItem, 1);
+                inventory.PutFirst(itemInslot, 1);
+
+            }
+         
         }
 
       
