@@ -1,0 +1,3 @@
+id,name_localization,hp,damage
+player,player,100,0
+enemy,enemy,100,15

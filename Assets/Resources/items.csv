@@ -1,0 +1,8 @@
+id,name_localization_id,description_localization_id,weight,default_capacity_per_slot,meta_value_1,meta_value_2
+ammo_5.45x39,ammo_5.45x39,ammo_5.45x39_d,"0,03",100,3,0
+ammo_9x18mm,ammo_9x18mm,ammo_9x18mm_d,"0,01",50,5,0
+body_armor,body_armor,body_armor_d,10,1,10,body_clothes
+cap,cap,cap_d,"0,1",1,3,head_clothes
+first_aid_kit,first_aid_kit,first_aid_kit_d,1,6,50,0
+helmet,helmet,helmet_d,1,1,10,head_clothes
+jacket,jacket,jacket_d,1,1,3,body_clothes

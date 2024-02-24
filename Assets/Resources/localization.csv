@@ -1,0 +1,27 @@
+key,en,ru
+type,TRUE,TRUE
+ammo_5.45x39,ammo 5.45x39,патроны 5.45x39
+ammo_9x18mm,ammo 9x18mm,патроны 9x18мм
+body_armor,body armor,бронижелет
+cap,cap,шапка
+first_aid_kit,first aid kit,аптечка
+helmet,helmet,шлем
+jacket,jacket,куртка
+ammo_5.45x39_d,ammo 5.45x39,патроны 5.45x39
+ammo_9x18mm_d,ammo 9x18mm,патроны 9x18мм
+body_armor_d,body armor,бронижелет
+cap_d,cap,шапка
+first_aid_kit_d,first aid kit,аптечка
+helmet_d,helmet,шлем
+jacket_d,jacket,куртка
+player,Hero,Герой
+enemy,Enemy,Враг
+equip,Equip,Экипировать
+delete,Delete,Удалить
+treat,Treat,Вылечить
+buy,Buy,Купить
+game_over,Game over,Игра окончена
+restart,Restart,Сначала
+head_clothes,Head,Голова
+body_clothes,Body,Торс
+kg,kg,кг
